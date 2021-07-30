@@ -73,3 +73,11 @@ public:
 private:
 
 };
+
+static void ASSERT_VERBOSE(bool condition, const char* expression, unsigned int line, CPU* cpu) {
+	if (!condition) {
+		std::cout << std::endl << expression << " failed. On line " << line << std::endl;
+		cpu->printStatus();
+		assert(false);
+	}
+};

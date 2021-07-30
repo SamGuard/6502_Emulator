@@ -9,14 +9,6 @@ void CPU::printStatus() {
 	std::cout << "CZIDBVN" << std::endl << std::bitset<7>(status) << std::endl;
 }
 
-void ASSERT_VERBOSE(bool condition, const char* expression, unsigned int line, CPU* cpu) {
-	if (!condition) {
-		std::cout << std::endl << expression << " failed. On line " << line << std::endl;
-		cpu->printStatus();
-		assert(false);
-	}
-};
-
 
 CPU::CPU()
 {
@@ -252,78 +244,6 @@ void CPU::store(Word addrMode, Word dataAddr, Byte data, u32& cycles, Memory& me
 		ASSERT_VERBOSE(false, "Invalid addressing mode", __LINE__, this);
 		break;
 	}
-}
-
-
-//-----------Arithmetic-------------
-void CPU::ADC(Byte addrMode, Word addr, u32& cycles, Memory& mem) {
-	Byte val = (int8_t)load(addrMode, addr, cycles, mem);
-	int8_t sA = A;
-	A = val + sA + C;
-	Z = A == 0;
-	C = 0;
-
-	N = (A & 0b10000000) > 0;
-
-	if ((val & 0b10000000) != (sA & 0b10000000)) {
-		return;
-	}
-
-	if ((val & 0b10000000) != (A & 0b10000000)) {
-		C = 1;
-		V = true;
-	}
-}
-
-void CPU::SUB(Byte addrMode, Word addr, u32& cycles, Memory& mem) {
-	int8_t val = load(addrMode, addr, cycles, mem);
-	int8_t sA = A;
-	A = sA - val - (1 - C);
-	Z = A == 0;
-	C = 0;
-
-
-	N = (A & 0b10000000) > 0;
-
-	if ((val & 0b10000000) == (sA & 0b10000000)) {
-		return;
-	}
-
-	if ((sA & 0b10000000) == (A & 0b10000000)) {
-		C = 1;
-		V = true;
-	}
-}
-
-
-//----------Logic------------
-void CPU::AND(Byte addrMode, Word addr, u32& cycles, Memory& mem) {
-	int8_t val = load(addrMode, addr, cycles, mem);
-
-	A = val & A;
-
-	Z = A == 0;
-	N = (A & 0b10000000) > 0;
-
-}
-
-void CPU::ASL(Byte addrMode, Word addr, u32& cycles, Memory& mem) {
-	Byte val = load(addrMode, addr, cycles, mem);
-
-	C = (val & 0b10000000) > 0;
-
-	A = val << 1;
-
-	Z = A == 0;
-	N = (A & 0b10000000) > 0;
-}
-
-void CPU::CMP(Byte addrMode, Word addr, u32& cycles, Memory& mem) {
-	Byte m = load(addrMode, addr, cycles, mem);
-
-	C = A >= m;
-	Z = A == m;
-	N = ((A - m) & 0b10000000) > 0;
 }
 
 
