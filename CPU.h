@@ -1,7 +1,6 @@
 #pragma once
 #include "constants.cpp"
 #include "Memory.cpp"
-#include "ALU_Functions.cpp"
 
 #include <iostream>
 #include <stdlib.h>
@@ -39,6 +38,10 @@ public:
 
 	Byte getLowByte(Word);
 	Byte getHighByte(Word);
+
+	Byte sByteToWord(Byte x);
+
+	void branch(bool condition, u32& cycles, Memory& mem);
 
 	Byte fetch(u32&, Memory&);
 	Word fetchWord(u32&, Memory&);

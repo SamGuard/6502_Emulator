@@ -14,6 +14,9 @@ using Word = u16;
 constexpr u8 MAX_INT = 255;
 const u16 WORD_LENGTH = 16;
 
+const Word TEXT_OUT_START = 0x200;
+const Word TEXT_OUT_END = 0x2FF;
+
 static constexpr Byte
 	ADR_AC = 0,
 	ADR_IM = 1,
@@ -118,6 +121,16 @@ static constexpr Byte
 	INS_CMP_AY = 0xD9,
 	INS_CMP_IX = 0xC1,
 	INS_CMP_IY = 0xD1,
+
+	//Branching
+	INS_BCC = 0x90,
+	INS_BCS = 0xB0,
+	INS_BEQ = 0xF0,
+	INS_BMI = 0x30,
+	INS_BNE = 0xD0,
+	INS_BPL = 0x10,
+	INS_BVC = 0x50,
+	INS_BVS = 0x70,
 
 	//System
 	INS_NOP = 0xEA,

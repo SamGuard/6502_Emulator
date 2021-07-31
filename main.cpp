@@ -13,7 +13,7 @@ const Byte OUTPUT = 254;
 
 void writeProgram(Byte* program, u32 programStart, u32 length, Memory& mem) {
 	for (unsigned int i = 0; i < length; i++) {
-		mem.writeByte(600 + i, program[i]);
+		mem.writeByte(programStart + i, program[i]);
 	}
 }
 
@@ -62,7 +62,7 @@ void additionProgram(CPU cpu, Memory& mem) {
 }
 
 
-void substitutionProgram(CPU cpu, Memory& mem) {
+void substitutionProgram(CPU cpu, Memory& mem, Word programStart) {
 	const Byte VLA = 0;
 	const Byte VLB = 2;
 
@@ -91,9 +91,17 @@ void substitutionProgram(CPU cpu, Memory& mem) {
 
 
 
-	writeProgram(program, 600, sizeof(program) / sizeof(*program), mem);
+	writeProgram(program, programStart, sizeof(program) / sizeof(*program), mem);
 }
 
+
+void readTextOut(Memory& mem) {
+	Word i = TEXT_OUT_START;
+	while (i <= TEXT_OUT_END) {
+		std::cout << mem.readByte(i);
+		i++;
+	}
+}
 
 int main() {
 	CPU cpu;
@@ -101,7 +109,7 @@ int main() {
 	cpu.init(mem);
 
 	//Bootstrap
-	Word programStart = 600;
+	Word programStart = 0x300;
 	mem.writeByte(0xFFFC, INS_JSR);
 	mem.writeByte(0xFFFD, (0b0000000011111111 & programStart));
 	mem.writeByte(0xFFFE, (0b1111111100000000 & programStart) >> 8);
@@ -109,7 +117,7 @@ int main() {
 	//-------
 	
 
-	substitutionProgram(cpu, mem);
+	substitutionProgram(cpu, mem, programStart);
 	
 
 	cpu.execute(100, true, mem);
@@ -117,8 +125,10 @@ int main() {
 	int16_t result = mem.readByte(OUTPUT) | (mem.readByte(OUTPUT + 1) << 8);
 	std::bitset<16> resultBits(result);
 
-	std::cout << resultBits << std::endl;
-	std::cout << result << std::endl;
+	//std::cout << resultBits << std::endl;
+	//std::cout << result << std::endl;
+
+	readTextOut(mem);
 
 	return 1;
 }
