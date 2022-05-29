@@ -1,6 +1,6 @@
 #pragma once
-#include "constants.cpp"
-#include "Memory.cpp"
+#include "constants.hpp"
+#include "Memory.hpp"
 
 #include <iostream>
 #include <stdlib.h>

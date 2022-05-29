@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <math.h>
 #include <bitset>
-#include "constants.cpp"
-#include "CPU.h"
+#include "../headers/constants.hpp"
+#include "../headers/CPU.hpp"
 
 const Byte OUTPUT = 254;
 
@@ -96,9 +96,15 @@ void substitutionProgram(CPU cpu, Memory& mem, Word programStart) {
 
 
 void readTextOut(Memory& mem) {
-	Word i = TEXT_OUT_START;
+	Byte cursor = mem.readByte(TEXT_OUT_START);
+	Word i = TEXT_OUT_START + 1;
 	while (i <= TEXT_OUT_END) {
-		std::cout << mem.readByte(i);
+		if (cursor + 1 == i - TEXT_OUT_START) {
+			std::cout << "_";
+		}
+		else {
+			std::cout << mem.readByte(i);
+		}
 		i++;
 	}
 }
@@ -107,17 +113,9 @@ int main() {
 	CPU cpu;
 	Memory mem;
 	cpu.init(mem);
-
-	//Bootstrap
-	Word programStart = 0x300;
-	mem.writeByte(0xFFFC, INS_JSR);
-	mem.writeByte(0xFFFD, (0b0000000011111111 & programStart));
-	mem.writeByte(0xFFFE, (0b1111111100000000 & programStart) >> 8);
-	mem.writeByte(0xFFFF, INS_NOP);
-	//-------
 	
-
-	substitutionProgram(cpu, mem, programStart);
+	
+	substitutionProgram(cpu, mem, PROGRAM_START);
 	
 
 	cpu.execute(100, true, mem);
@@ -125,8 +123,8 @@ int main() {
 	int16_t result = mem.readByte(OUTPUT) | (mem.readByte(OUTPUT + 1) << 8);
 	std::bitset<16> resultBits(result);
 
-	//std::cout << resultBits << std::endl;
-	//std::cout << result << std::endl;
+	std::cout << resultBits << std::endl;
+	std::cout << result << std::endl;
 
 	readTextOut(mem);
 

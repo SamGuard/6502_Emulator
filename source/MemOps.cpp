@@ -1,4 +1,4 @@
-#include "CPU.h"
+#include "../headers/CPU.hpp"
 
 Byte CPU::fetch(u32& cycles, Memory& mem) {
 	Byte data = mem.readByte(PC);

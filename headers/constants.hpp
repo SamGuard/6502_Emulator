@@ -1,6 +1,7 @@
-#pragma once
-#include <stdint.h>
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
+#include <stdint.h>
 using u8 = uint8_t;
 using u16 = uint16_t;
 using u32 = uint32_t;
@@ -13,6 +14,8 @@ using Word = u16;
 
 constexpr u8 MAX_INT = 255;
 const u16 WORD_LENGTH = 16;
+
+const Word PROGRAM_START = 0x300;
 
 const Word TEXT_OUT_START = 0x200;
 const Word TEXT_OUT_END = 0x2FF;
@@ -123,17 +126,21 @@ static constexpr Byte
 	INS_CMP_IY = 0xD1,
 
 	//Branching
-	INS_BCC = 0x90,
-	INS_BCS = 0xB0,
-	INS_BEQ = 0xF0,
-	INS_BMI = 0x30,
-	INS_BNE = 0xD0,
-	INS_BPL = 0x10,
-	INS_BVC = 0x50,
-	INS_BVS = 0x70,
+	INS_BCC = 0x90,//Carry clear
+	INS_BCS = 0xB0,//Carry set
+	INS_BEQ = 0xF0,//Equal
+	INS_BMI = 0x30,//Negative
+	INS_BNE = 0xD0,//Not equal
+	INS_BPL = 0x10,//Positive
+	INS_BVC = 0x50,//Overflow clear
+	INS_BVS = 0x70,//Overflow set
+
+	//Bit test
+	INS_BIT_ZP = 0x24,
+	INS_BIT_AB = 0x2C,
 
 	//System
-	INS_NOP = 0xEA,
+	INS_NOP = 0xEA,//No operation
 
 	INS_JSR = 0x20,
 	INS_RTS = 0x60,
@@ -141,3 +148,6 @@ static constexpr Byte
 	INS_CLC = 0x18,
 	INS_SEC = 0xF8
 	;
+
+
+#endif
