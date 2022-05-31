@@ -18,7 +18,6 @@ is reserved for system stack
 
 class Memory {
    private:
-    static const uint64_t MAX_MEM = 64 * 1024;
     Byte data[MAX_MEM];
 
    public:

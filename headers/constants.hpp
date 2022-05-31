@@ -11,7 +11,7 @@ using Byte = u8;
 using Word = u16;
 
 
-
+constexpr u32 MAX_MEM = 64 * 1024;
 constexpr u8 MAX_INT = 255;
 const u16 WORD_LENGTH = 16;
 

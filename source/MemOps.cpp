@@ -59,7 +59,7 @@ void CPU::writeWord(Word address, Word val, u32& cycles, Memory& mem) {
 Byte CPU::load(Byte addrMode, Word dataAddr, u32& cycles, Memory& mem) {
 	//Byte addr = readByte(dataAddr, cycles, mem);
 	//Word addr = readWord(dataAddr, cycles, mem);
-	Word finalAddr = NULL;
+	Word finalAddr = 0;
 	cycles--;
 	switch (addrMode)
 	{

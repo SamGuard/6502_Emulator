@@ -72,6 +72,7 @@ void CPU::branch(bool condition, u32& cycles, Memory& mem) {
 void CPU::execute(u32 cycles, bool useCycles, Memory& mem) {
     while ((cycles > 0 || !useCycles) && PC != 0xFFFF) {
         Word ins = fetch(cycles, mem);
+        std::cout << PC << " " << ins << std::endl;
 
         switch (ins) {
                 //------------#LDA--------------

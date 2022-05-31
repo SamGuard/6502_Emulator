@@ -16,6 +16,9 @@ build: ./objects/main.o ./objects/CPU.o ./objects/MemOps.o ./objects/ALU.o
 ./objects/ALU.o: ./headers/CPU.hpp ./headers/constants.hpp ./headers/Memory.hpp ./source/ALU.cpp
 	g++ -o ./objects/ALU.o -c -I./headers/ ./source/ALU.cpp $(COMP_FLAGS)
 
+run:
+	./bin/main
+
 clean:
 	- rm ./objects/*
 	- rm ./bin/*
